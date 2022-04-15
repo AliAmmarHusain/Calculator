@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://kit.fontawesome.com/43c2475523.js" crossorigin="anonymous"></script>
+
+  <script src="test.js"></script>
+ <!-- for styling -->
+ <style>
+    .title{
+    margin-bottom: 10px;
+    text-align:center;
+    width: 210px;
+    color:green;
+    border: solid black 2px;
+    }
+
+    input[type="button"]
+    {
+    background-color:rgb(100, 137, 151);
+    color: black;
+    border: solid black 2px;
+    width:100%;
+    height: 100%;
+    font-size: large;
+    }
+
+    input[type="text"]
+    {
+    background-color:white;
+    border: solid black 2px;
+    width:100%;
+    height: 100%;
+    font-size: large;
+    }
+ </style>
+</head>
+<body>
+  <body>
+    <table border="1" class="text-center justify-content-center align-content-center" style="width: 500px; height: 500px;">
+       <tr>
+          <td colspan="3"><input type="text" id="result"/></td>
+          <!-- clr() function will call clr to clear all value -->
+          <td><input type="button" value="c" onclick="clr()"/> </td>
+       </tr>
+       <tr>
+        <td colspan="3"><input type="text" id="resultshow"/></td>
+        <td><input type="button" value="(" onclick="dis('(')"/> </td>
+
+        <!-- clr() function will call clr to clear all value -->
+     </tr>
+       <tr>
+          <!-- create button and assign value to each button -->
+          <!-- dis("1") will call function dis to display value -->
+          <td><input type="button" value="1" onclick="dis('1')"/> </td>
+          <td><input type="button" value="2" onclick="dis('2')"/> </td>
+          <td><input type="button" value="3" onclick="dis('3')"/> </td>
+          <td><input type="button" value=")" onclick="dis(')')"/> </td>
+       </tr>
+       <tr>
+          <td><input type="button" value="4" onclick="dis('4')"/> </td>
+          <td><input type="button" value="5" onclick="dis('5')"/> </td>
+          <td><input type="button" value="6" onclick="dis('6')"/> </td>
+          <td><input type="button" value="-" onclick="dis('-')"/> </td>
+       </tr>
+       <tr>
+          <td><input type="button" value="7" onclick="dis('7')"/> </td>
+          <td><input type="button" value="8" onclick="dis('8')"/> </td>
+          <td><input type="button" value="9" onclick="dis('9')"/> </td>
+          <td><input type="button" value="+" onclick="dis('+')"/> </td>
+       </tr>
+       <tr>
+          <td><input type="button" value="." onclick="dis('.')"/> </td>
+          <td><input type="button" value="0" onclick="dis('0')"/> </td>
+          <!-- solve function call function solve to evaluate value -->
+          <td><input type="button" value="=" onclick="solve()"/> </td>
+          <td><input type="button" value="*" onclick="dis('*')"/> </td>
+       </tr>
+       <tr>
+        <td><input type="button" value="sin" onclick="dis('sin')"/></td>
+        <td><input type="button" value="cos" onclick="dis('cos')"/></td>
+        <td><input type="button" value="tan" onclick="dis('tan')"/></td>
+        <td><input type="button" value="/" onclick="dis('/')"/> </td>
+      </tr>
+      <tr>
+        <td colspan="2"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#variableModal" data-whatever="@fat" onclick="showVariables()" >Add Variable</button></td>
+        <td colspan="2"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#historyModal" onclick="showHistory()" data-whatever="@fat">History</button></td>
+       </tr>
+    </table>
+
+    <div class="modal fade" id="variableModal" tabindex="-1" role="dialog" aria-labelledby="variableModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="variableModalLabel">New message</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-hover" id="variables">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">name</th>
+                  <th scope="col">Value</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody class="variables-body">
+
+              </tbody>
+            </table>
+            <form>
+              <div class="form-group">
+                <label for="varName" class="col-form-label">Variable Name:</label>
+                <input type="text" class="form-control" id="varName">
+              </div>
+              <div class="form-group">
+                <label for="varValue" class="col-form-label">Value:</label>
+                <textarea class="form-control" id="varValue"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="addVariable()" >Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="historyModalLabel">New message</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-hover" id="history">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Expression</th>
+                  <th scope="col">Result</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody class="history-body">
+
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+ </body>
+</body>
+</html>
