@@ -1,98 +1,21 @@
-let mapArray = []
-let history = []
-let variables = []
-let historyId = 0;
-let variablesId = 0;
 
-function showHistory(){
-
-  var table = document.getElementById("history")
-
-  for(var i = table.rows.length - 1; i > 0; i--)
-  {
-      table.deleteRow(i);
-  }
-
-  for(let i = 0; i < history.length; i++){
-    var row = table.insertRow(i+1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-    cell1.innerHTML = history[i].id;
-    cell2.innerHTML = history[i].input;
-    cell3.innerHTML = history[i].output;
-    cell4.innerHTML = `<button onclick="deleteHistory(${history[i].id})"><i class="fa-solid fa-trash-can"></i></button>`;
-  }
-}
-
-function addVariable(){
-  let name = document.getElementById("varName").value;
-  let value = document.getElementById("varValue").value;
-  if(!isNaN(value)){
-    if(name >= 'a' && name <= 'z' || name >= 'A' && name <= 'Z'){
-      variables.push({ "id": variablesId++, [name] : value, "name" : name, "value": value})
-    }
-  }
-  document.getElementById("varName").value = "";
-  document.getElementById("varValue").value = "";
-  showVariables()
-}
-function showVariables(){
-  var table = document.getElementById("variables")
-
-
-  for(var i = table.rows.length - 1; i > 0; i--)
-  {
-      table.deleteRow(i);
-  }
-
-  for(let i = 0; i < variables.length; i++){
-    var row = table.insertRow(i+1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-    cell1.innerHTML = variables[i].id;
-    cell2.innerHTML = variables[i].name;
-    cell3.innerHTML = variables[i].value;
-    cell4.innerHTML = `<button onclick="deleteVariable(${variables[i].id})"><i class="fa-solid fa-trash-can"></i></button>`;
-  }
-}
-
-function deleteHistory(id){
-  for(let i = 0; i < history.length; i++ ){
-    if(history[i].id == id){
-      history.splice(i, 1);
-    }
-  }
-  showHistory()
-}
-function deleteVariable(id){
-  for(let i = 0; i < variables.length; i++ ){
-    if(variables[i].id == id){
-      variables.splice(i, 1);
-    }
-  }
-  showVariables()
-}
-
+//display values in inpiut box
 function dis(val){
     document.getElementById("result").value+=val
 }
 
-//function that evaluates the digit and return result
-function solve(){
-    let x = document.getElementById("result").value
-    validateString(x)
-    // let y = eval(x)
-    // document.getElementById("result").value = y
+//clear the display
+function clr(){
+  document.getElementById("result").value = ""
 }
 
-//function that clear the display
-function clr(){
-    document.getElementById("result").value = ""
+//evaluates the expression (main entry point)
+function solve(){
+    let value = document.getElementById("result").value
+    validateString(value)
 }
+
+
 
 
 
@@ -223,6 +146,9 @@ function InfixtoPostfix(value) {
 	// To print postfix expression in HTML
   calculate(st)
 }
+
+
+//calculate the result of expression logic.
 function calculate(st){
   let i = 0;
   values = []
@@ -240,12 +166,12 @@ function calculate(st){
           second = parseFloat(second)
         }else{
 
-          second = parseFloat(search(second,mapArray))
+          second = parseFloat(search(second, mapArray))
         }
         if(typeof(first) == 'number'){
           first = parseFloat(first)
         }else{
-          first = parseFloat(search(first,mapArray))
+          first = parseFloat(search(first, mapArray))
         }
         let result = first + second
         values.push(result)
@@ -258,12 +184,12 @@ function calculate(st){
           second = parseFloat(second)
         }else{
 
-          second = parseFloat(search(second,mapArray))
+          second = parseFloat(search(second, mapArray))
         }
         if(typeof(first) == 'number'){
           first = parseFloat(first)
         }else{
-          first = parseFloat(search(first,mapArray))
+          first = parseFloat(search(first, mapArray))
         }
         let result = first - second
         values.push(result)
@@ -275,12 +201,12 @@ function calculate(st){
           second = parseFloat(second)
         }else{
 
-          second = parseFloat(search(second,mapArray))
+          second = parseFloat(search(second, mapArray))
         }
         if(typeof(first) == 'number'){
           first = parseFloat(first)
         }else{
-          first = parseFloat(search(first,mapArray))
+          first = parseFloat(search(first, mapArray))
         }
         let result = first * second
         values.push(result)
@@ -292,12 +218,12 @@ function calculate(st){
           second = parseFloat(second)
         }else{
 
-          second = parseFloat(search(second,mapArray))
+          second = parseFloat(search(second, mapArray))
         }
         if(typeof(first) == 'number'){
           first = parseFloat(first)
         }else{
-          first = parseFloat(search(first,mapArray))
+          first = parseFloat(search(first, mapArray))
         }
         if(second == 0){
           window.alert('Error : Devidec by 0 ')
@@ -310,12 +236,12 @@ function calculate(st){
         if(typeof(second) == 'number'){
           second = parseFloat(second)
         }else{
-          second = parseFloat(search(second,mapArray))
+          second = parseFloat(search(second, mapArray))
         }
         if(typeof(first) == 'number'){
           first = parseFloat(first)
         }else{
-          first = parseFloat(search(first,mapArray))
+          first = parseFloat(search(first, mapArray))
         }
         let result = Math.pow(first, second)
         values.push(result)
@@ -324,7 +250,7 @@ function calculate(st){
         if(typeof(first)=='number'){
           first = parseFloat(first)
         }else{
-          first =  parseFloat(search(first,mapArray))
+          first =  parseFloat(search(first, mapArray))
         }
         values.push(parseFloat(Math.sin(first)));
       }else if(st[i] == '~' ){
@@ -332,7 +258,7 @@ function calculate(st){
         if(typeof(first)=='number'){
           first = parseFloat(first)
         }else{
-          first =  parseFloat(search(first,mapArray))
+          first =  parseFloat(search(first, mapArray))
         }
         values.push(parseFloat(Math.cos(first)));
       }else if(st[i] == '_' ){
@@ -340,7 +266,7 @@ function calculate(st){
         if(typeof(first)=='number'){
           first = parseFloat(first)
         }else{
-          first =  parseFloat(search(first,mapArray))
+          first =  parseFloat(search(first, mapArray))
         }
         values.push(parseFloat(Math.tan(first)));
       }
@@ -357,6 +283,7 @@ function calculate(st){
   }
 }
 
+// validate string.
 function validateString(str){
   let index = str.indexOf("sin")
   if(index >= 0)
@@ -375,7 +302,9 @@ function validateString(str){
       str = newstr.join('')
     }
   }
-  // find invalid characters
+
+
+  // Find invalid characters
   for(let i = 0; i < str.length; i++){
     if(i+1 < str.length && str[i] == ')' && !isNaN(str[i+1])){
       str = str.substring(0, i+1) + "*" + str.substring(i+1);
@@ -410,6 +339,7 @@ function validateString(str){
   replaceNum(str)
 }
 
+// replace number
 function replaceNum(strr){
   strVal = strr.split(' ')
   let j=0;
@@ -419,7 +349,7 @@ function replaceNum(strr){
       strVal[i] == '^' || strVal[i] == '!' ||
       strVal[i] == '~' || strVal[i] == '_' ||
       strVal[i] == '(' || strVal[i] == ')' || strVal[i] == ''){
-
+        // nothing
       }else{
       mapArray.push({[(j+10).toString(36)]:strVal[i]})
       strVal[i] = (j+10).toString(36)
@@ -430,5 +360,94 @@ function replaceNum(strr){
   InfixtoPostfix(strVal.join(''))
 }
 
+//Map between numbers and alphabets
+let mapArray = []
+// manage history
+let history = []
+let historyId = 0;
+// manage variables
+let variables = []
+let variablesId = 0;
 
-// InfixtoPostfix(strr);
+// show the history
+function showHistory(){
+
+  var table = document.getElementById("history")
+
+  for(var i = table.rows.length - 1; i > 0; i--)
+  {
+      table.deleteRow(i);
+  }
+
+  for(let i = 0; i < history.length; i++){
+    var row = table.insertRow(i+1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    cell1.innerHTML = history[i].id;
+    cell2.innerHTML = history[i].input;
+    cell3.innerHTML = history[i].output;
+    cell4.innerHTML = `<button onclick="deleteHistory(${history[i].id})"><i class="fa-solid fa-trash-can"></i></button>`;
+  }
+}
+
+// delete history
+function deleteHistory(id){
+  for(let i = 0; i < history.length; i++ ){
+    if(history[i].id == id){
+      history.splice(i, 1);
+    }
+  }
+  showHistory()
+}
+
+
+// add variables
+function addVariable(){
+  let name = document.getElementById("varName").value;
+  let value = document.getElementById("varValue").value;
+  if(!isNaN(value)){
+    if(name >= 'a' && name <= 'z' || name >= 'A' && name <= 'Z'){
+      variables.push({ "id": variablesId++, [name] : value, "name" : name, "value": value})
+    }
+  }
+  document.getElementById("varName").value = "";
+  document.getElementById("varValue").value = "";
+  showVariables()
+}
+
+// show variables
+function showVariables(){
+  var table = document.getElementById("variables")
+
+
+  for(var i = table.rows.length - 1; i > 0; i--)
+  {
+      table.deleteRow(i);
+  }
+
+  for(let i = 0; i < variables.length; i++){
+    var row = table.insertRow(i+1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    cell1.innerHTML = variables[i].id;
+    cell2.innerHTML = variables[i].name;
+    cell3.innerHTML = variables[i].value;
+    cell4.innerHTML = `<button onclick="deleteVariable(${variables[i].id})"><i class="fa-solid fa-trash-can"></i></button>`;
+  }
+}
+
+
+
+// delete variable
+function deleteVariable(id){
+  for(let i = 0; i < variables.length; i++ ){
+    if(variables[i].id == id){
+      variables.splice(i, 1);
+    }
+  }
+  showVariables()
+}
